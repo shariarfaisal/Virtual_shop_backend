@@ -6,6 +6,8 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 
+const Shop = require('./routes/shop')
+
 mongoose.connect('mongodb://localhost:27017/turing',{useNewUrlParser: true},() => {
   console.log('Database connection established succesfully');
 })
@@ -16,6 +18,7 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+app.use('/api/shop',Shop);
 
 app.use('/',(req,res) => {
   res.send('hello world')
