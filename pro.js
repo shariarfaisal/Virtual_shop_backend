@@ -6,7 +6,7 @@ shop{
 }
 
 categories{
-
+  name 
 }
 
 shop_products{
@@ -18,5 +18,20 @@ shop_products{
   description
   image
   brand
-  
+
+}
+
+customar = {
+  name
+  email
+  address_1
+  address_2
+  city
+  region
+  postal_code
+  country
+  phone
+  creditCard
+  password
+
 }

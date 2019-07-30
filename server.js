@@ -1,28 +1,12 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 1000 ;
-const morgan = require('morgan');
-const cors = require('cors')
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose')
 
-const Shop = require('./routes/shop')
+require('./startup/db')();
+require('./startup/config')();
+require('./startup/routes')(app);
 
-mongoose.connect('mongodb://localhost:27017/turing',{useNewUrlParser: true},() => {
-  console.log('Database connection established succesfully');
-})
-
-
-app.use(morgan('dev'))
-app.use(cors())
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
-
-app.use('/api/shop',Shop);
-
-app.use('/',(req,res) => {
-  res.send('hello world')
-})
+app.use(express.static('uploads'))
 
 app.listen(port,() => {
   console.log(`port is running port ${port}`)
