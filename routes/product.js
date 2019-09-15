@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Product = require('../controllers/product');
 const shopAuth = require('../middleware/shopAuth')
+const customarAuth = require('../middleware/customarAuth')
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -27,6 +28,7 @@ const upload = multer({storage: storage,limits: {
 })
 router.post('/',shopAuth,upload.single('image'),Product.getPostProduct);
 router.get('/',Product.getAllProduct);
+router.get('/search/:search',customarAuth,Product.search);
 router.get('/shop',shopAuth,Product.getProductsWithShopId);
 router.get('/:categoryId/category',Product.getProductsWithCategoryId);
 router.get('/:id',Product.getSingleProduct);

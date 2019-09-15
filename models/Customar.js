@@ -17,18 +17,18 @@ const customarSchema = new Schema({
     min: 1,
     max: 255,
     required: true,
+    unique: true
   },
-  address_1: {
+  address: {
     type: String,
     min: 1,
     max: 255,
     required: true,
   },
-  address_2: {
+  phone: {
     type: String,
     min: 1,
-    max: 255,
-    required: true,
+    max: 50
   },
   city: {
     type: String,
@@ -52,15 +52,23 @@ const customarSchema = new Schema({
     type: String,
     required: true,
   },
-  creditCard: {
-    type: String,
-    required: true,
-  },
   password: {
     type: String,
     min: 5,
     required: true,
-  }
+  },
+  favourite: [{
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'product'
+    }
+  }],
+  follow: [{
+    shop: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'shop'
+    }
+  }]
 })
 
 customarSchema.methods.getCustomarToken = function(){

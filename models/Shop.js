@@ -20,6 +20,16 @@ const shopSchema = new Schema({
   },
   phone: {
     type: String
+  },
+  country: {
+    type: String,
+    required: true
+  },
+  image: {
+    type: String
+  },
+  about: {
+    type: String 
   }
 })
 
@@ -29,6 +39,7 @@ const validateShop = (Shop) => {
     email: joi.string().max(200).required(),
     password: joi.string().min(5).max(256).required(),
     confirmPassword: joi.string().max(256).required(),
+    country: joi.string().max(20).required(),
     phone: joi.string()
   }
 

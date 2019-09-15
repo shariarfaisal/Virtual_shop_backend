@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 const customarAuth = (req,res,next) => {
-  const token = req.header('customar_token');
+  const token = req.header('virtual_customar_token');
   if(!token) return res.status(401).send("You are not authenticated!");
   try{
     const decoded = jwt.verify(token,config.get('jwtPrivatekey'));

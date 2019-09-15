@@ -8,5 +8,7 @@ router.get('/me',customarAuth,Customar.getMyAccount);
 router.get('/:id',Customar.getSingleCustomar);
 router.delete('/:id',customarAuth,Customar.getDeleteCustomar);
 router.put('/',customarAuth,Customar.getUpdateCustomar);
+router.post('/favourite',customarAuth,Customar.favourite);
+router.post('/follow',customarAuth,Customar.follow);
 
 module.exports = router;

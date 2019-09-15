@@ -16,6 +16,17 @@ const prodcutSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'category'
   },
+  reviews: [{
+    customar: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'customar'
+    },
+    comment:{
+      type: String,
+      required: true
+    },
+    rating: Number
+  }],
   price:{
     type: Number,
     required: true
@@ -28,6 +39,11 @@ const prodcutSchema = new Schema({
     type: String,
     min: 10,
     max: 5000,
+  },
+  tags:{
+    type: Array,
+    trim: true,
+    default: function (){return this.category}
   },
   time: {
     type: Date,
