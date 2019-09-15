@@ -1,0 +1,4 @@
+{
+  "jwtPrivatekey": "hello",
+  "db": "mongodb://localhost:27017/turing_test"
+}

@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
-
+const config = require('config')
 
 module.exports = function() {
 
   mongoose.connect(
-    'mongodb://localhost:27017/turing',
+    config.get('db'),
     {useNewUrlParser: true},
     () => {
-      console.log('Database connection established succesfully');
+      console.log('Database connection established '+config.get('db'));
     }
   )
 }

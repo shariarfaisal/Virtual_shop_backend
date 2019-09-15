@@ -1,12 +1,13 @@
 const Admin = require('../models/Admin');
 const joi = require('joi');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose')
 
 const registerValidator = (data) => {
   const schema = {
-    name: joi.string().max(55).required(),
-    userName: joi.string().max(100).required(),
-    password: joi.string().required(),
+    name: joi.string().min(3).max(55).required(),
+    userName: joi.string().min(3).max(55).required(),
+    password: joi.string().min(3).required(),
     confirmPassword: joi.string().required()
   }
 
@@ -15,10 +16,10 @@ const registerValidator = (data) => {
 
 const updateValidator = data => {
   const schema = {
-    name: joi.string().max(55).required(),
-    userName: joi.string().max(100).required(),
-    oldPassword: joi.string().required(),
-    newPassword: joi.string().required()
+    name: joi.string().min(3).max(55).required(),
+    userName: joi.string().min(3).max(100).required(),
+    oldPassword: joi.string().min(3).required(),
+    newPassword: joi.string().min(3).required()
   }
     return joi.validate(data,schema);
 }
@@ -92,6 +93,9 @@ const getMe = async (req,res) => {
 }
 
 const deleteAdmin = async (req,res) => {
+  if(!mongoose.Types.ObjectId.isValid(req.params.adminId)){
+    return res.status(400).send("id is not valid")
+  }
   const admin = await Admin.findByIdAndDelete(req.params.adminId);
   if(!admin) return res.status(500).send("something wrong");
   return res.status(200).send(admin);
