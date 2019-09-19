@@ -2,10 +2,11 @@ const Customar = require('../models/Customar');
 const joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
 
 const customarValidator = (data) => {
   const schema = {
-    name: joi.string().min(1).max(55).required(),
+    name: joi.string().min(3).max(55).required(),
     email: joi.string().min(1).max(255).required(),
     address: joi.string().min(1).max(255).required(),
     city: joi.string().min(1).max(255).required(),
@@ -21,7 +22,7 @@ const customarValidator = (data) => {
 }
 const customarUpdateValidator = (data) => {
   const schema = {
-    name: joi.string().min(1).max(55).required(),
+    name: joi.string().min(3).max(55).required(),
     email: joi.string().min(1).max(255).required(),
     address: joi.string().min(1).max(255).required(),
     city: joi.string().min(1).max(255).required(),
@@ -31,7 +32,6 @@ const customarUpdateValidator = (data) => {
     phone: joi.string().min(1).max(55),
     password: joi.string().required()
   }
-
   return joi.validate(data,schema);
 }
 
@@ -44,7 +44,6 @@ const loginValidator = (data) => {
 }
 
 const login = async (req,res) => {
-  console.log(req.body);
   const {error} = loginValidator(req.body);
   if(error) return res.status(400).send(error.message);
   const {email,password} = req.body;
@@ -71,6 +70,7 @@ const register = async (req,res) => {
 
 const getUpdateCustomar = async (req,res) => {
   const {error} = customarUpdateValidator(req.body);
+  if(error) console.log('error found');
   if(error) return res.status(400).send(error.message);
   const {name,email,address,city,region,postal_code,country,phone,password} = req.body;
   const oldInfo = await Customar.findById(req.customar._id);
@@ -88,7 +88,7 @@ const getUpdateCustomar = async (req,res) => {
 const getAllCustomar = async (req,res) => {
   const customars = await Customar.find();
   if(!customars) return res.status(500).send("Something failed");
-  return res.status(201).send(customars);
+  return res.status(200).send(customars);
 }
 
 const getSingleCustomar = async (req,res) => {
@@ -100,14 +100,17 @@ const getSingleCustomar = async (req,res) => {
 const getMyAccount = async (req,res) => {
   const customar = await Customar.findById(req.customar._id).populate('favourite.product').populate('favourite.product.shop').populate('follow.shop');
   if(!customar) return res.status(500).send("Something failed");
-  return res.status(201).send(customar);
+  return res.status(200).send(customar);
 }
 
 
 const getDeleteCustomar = async (req,res) => {
-  const customar = await Customar.findByIdAndDelete(req.customar._id);
+  if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+    return res.status(400).send("id isn't valid...")
+  }
+  const customar = await Customar.findByIdAndDelete(req.params.id);
   if(!customar) return res.status(500).send("Something failed");
-  return res.status(201).send(customar);
+  return res.status(200).send(customar);
 }
 
 const favourite = async (req,res) => {

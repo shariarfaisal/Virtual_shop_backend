@@ -7,7 +7,7 @@ require('./startup/routes')(app);
 
 app.use(express.static('uploads'))
 
-const PORT = process.env.PORT || 1000;
+const PORT = process.env.PORT || 9000;
 const server = app.listen(PORT,() => {
   console.log(`Listening on port ${PORT}`);
 })
